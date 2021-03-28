@@ -8,7 +8,9 @@
 .DS_Store
 mouse.lst
 asmdemo.lst
+asmdemo.map
 weegui.lst
+weegui.map
 MouseText.xcf
 Documentation_HTMLtables.md
 WeeGUI.xcodeproj/project.xcworkspace/xcshareddata/WeeGUI.xccheckout
