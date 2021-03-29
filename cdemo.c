@@ -19,7 +19,7 @@ int main(void)
 {
 	byte action = 0;
 
-	// "brun weegui"
+	WGLoadLibrary();
 
 	WGDesktop();
 	WGCreateView(HELP_VIEW, STYLE_DECORATED, 2, 15, 76, 7, 76, 40);
@@ -71,11 +71,11 @@ int main(void)
 			break;
 
 		case CH_ESC:
-			WGFocusPrev();
+			WGViewFocusPrev();
 			break;
 
 		case 9:
-			WGFocusNext();
+			WGViewFocusNext();
 			break;
 
 		case CH_ENTER:
@@ -126,5 +126,5 @@ void quit(void)
 {
 	WGDisableMouse();
 	WGExit();
-	/* HOME */
+	__asm__ ("JSR $FC58");	/* HOME */
 }

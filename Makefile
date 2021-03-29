@@ -23,14 +23,7 @@ PGM=weegui
 DEMO=asmdemo
 CDEMO=cdemo
 
-all: $(CDEMO) $(DEMO) $(PGM)
-
-$(CDEMO):
-	$(CL65) -t apple2enh -C apple2enh-asm.cfg --start-addr $(ADDRDEMO) -l $(CDEMO).lst -m $(CDEMO).map $(CDEMO).c
-	java -jar $(AC) -d $(PGM).dsk $(CDEMO)
-	java -jar $(AC) -p $(PGM).dsk $(CDEMO) BIN $(ADDRDEMO) < $(CDEMO)
-	rm -f $(CDEMO)
-	rm -f $(CDEMO).o
+all: $(DEMO) $(PGM) $(CDEMO) 
 
 $(DEMO):
 	$(CL65) -t apple2enh -C apple2enh-asm.cfg --start-addr $(ADDRDEMO) -l $(DEMO).lst -m $(DEMO).map $(DEMO).s
@@ -46,6 +39,15 @@ $(PGM):
 	rm -f $(PGM)
 	rm -f $(PGM).o
 #	osascript V2Make.scpt $(PROJECT_DIR) $(DEMO) $(PGM)
+
+$(CDEMO):
+	$(CL65) -t apple2enh -C apple2enh.cfg --start-addr $(ADDRDEMO) -l $(CDEMO).lst -m $(CDEMO).map $(CDEMO).c $(PGM).s
+	java -jar $(AC) -d $(PGM).dsk $(CDEMO)
+	java -jar $(AC) -p $(PGM).dsk $(CDEMO) BIN $(ADDRDEMO) < $(CDEMO)
+	rm -f $(CDEMO)
+	rm -f $(CDEMO).o
+	rm -f $(PGM)
+	rm -f $(PGM).o
 
 clean:
 	rm -f $(CDEMO)

@@ -187,7 +187,7 @@ WG80:
 .include "mouse_gs.s"
 .include "applesoft.s"
 .include "memory.s"
-
+.include "c_interface.s"
 
 
 ; Suppress some linker warnings - Must be the last thing in the file
