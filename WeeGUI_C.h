@@ -13,7 +13,7 @@ typedef unsigned char byte;
 #define FEATURE_SCROLL_LEFT 	0x30
 #define FEATURE_SCROLL_RIGHT	0x40
 
-void WGLoadLibrary(void);
+void WGInit(void);
 
 // View routines
 void __cdecl__ WGCreateView(byte viewID, byte style, byte xPos, byte yPos, 

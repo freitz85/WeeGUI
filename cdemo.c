@@ -19,7 +19,7 @@ int main(void)
 {
 	byte action = 0;
 
-	WGLoadLibrary();
+	WGInit();
 
 	WGDesktop();
 	WGCreateView(HELP_VIEW, STYLE_DECORATED, 2, 15, 76, 7, 76, 40);
@@ -35,9 +35,9 @@ int main(void)
 	WGSelectView(BTN_OPEN);
 	WGSetCursor(40, 1);
 	WGPrint("\x53\x53\x53");
-	/* INVERSE */
+	// INVERSE
 	WGPrint(" Lighting: ");
-	/* NORMAL */
+	// NORMAL
 	WGPrint("\x53\x53\x53");
 
 	WGCreateCheckbox(CHK_PARLOR, 42, 4, "Parlor");
@@ -126,5 +126,5 @@ void quit(void)
 {
 	WGDisableMouse();
 	WGExit();
-	__asm__ ("JSR $FC58");	/* HOME */
+	__asm__ ("JSR $FC58");	// HOME
 }

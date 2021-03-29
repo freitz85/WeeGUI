@@ -1,6 +1,6 @@
 ; WeeGUI C interface
 
-		.export			_WGLoadLibrary
+		.export			_WGInit
 		.export			_WGClearScreen		
 		.export			_WGDesktop			
 		.export			_WGSetCursor			
@@ -82,20 +82,9 @@
 		sta 	PARAM1
 .endmacro
 
-INBUF			= $0200
-DOSCMD			= $be03
 
-
-_WGLoadLibrary:
-		ldx #0
-		ldy #0
-@0:		lda brunCmdLine,x
-		beq @1
-		sta INBUF,y
-		inx
-		iny
-		bra @0
-@1:		jsr DOSCMD
+_WGInit:
+		jmp		WGInit
 
 _WGClearScreen:
 		jmp		WGClearScreen
@@ -364,6 +353,3 @@ _WGGet:
 
 parameterList:
 		.byte	0,0,0,0,0,0,0,0
-
-brunCmdLine:
-		.byte "BRUN weegui",$8d,0

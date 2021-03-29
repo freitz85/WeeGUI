@@ -7,7 +7,8 @@
 ;
 
 
-.org $4000
+.segment "WEEGUI"
+;.org $4000
 
 ; Common definitions
 

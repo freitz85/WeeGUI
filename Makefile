@@ -11,6 +11,7 @@
 
 ifdef CC65_HOME
   CL65=$(CC65_HOME)/bin/cl65
+  CA65=$(CC65_HOME)/bin/ca65
 else
   CL65=cl65
 endif
@@ -36,18 +37,17 @@ $(PGM):
 	$(CL65) -t apple2enh -C apple2enh-asm.cfg --start-addr $(ADDR) -l $(PGM).lst -m $(PGM).map $(PGM).s
 	java -jar $(AC) -d $(PGM).dsk $(PGM)
 	java -jar $(AC) -p $(PGM).dsk $(PGM) BIN $(ADDR) < $(PGM)
-	rm -f $(PGM)
-	rm -f $(PGM).o
+#	rm -f $(PGM)
+#	rm -f $(PGM).o
 #	osascript V2Make.scpt $(PROJECT_DIR) $(DEMO) $(PGM)
 
 $(CDEMO):
-	$(CL65) -t apple2enh -C apple2enh.cfg --start-addr $(ADDRDEMO) -l $(CDEMO).lst -m $(CDEMO).map $(CDEMO).c $(PGM).s
+	$(CA65) -t apple2enh weegui.s
+	$(CL65) -t apple2enh -C apple2enh-weegui.cfg -l $(CDEMO).lst -m $(CDEMO).map $(CDEMO).c weegui.o
 	java -jar $(AC) -d $(PGM).dsk $(CDEMO)
-	java -jar $(AC) -p $(PGM).dsk $(CDEMO) BIN $(ADDRDEMO) < $(CDEMO)
-	rm -f $(CDEMO)
-	rm -f $(CDEMO).o
-	rm -f $(PGM)
-	rm -f $(PGM).o
+	java -jar $(AC) -as $(PGM).dsk $(CDEMO) < $(CDEMO)
+#	rm -f $(CDEMO)
+#	rm -f $(CDEMO).o
 
 clean:
 	rm -f $(CDEMO)
