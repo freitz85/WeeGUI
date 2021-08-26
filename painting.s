@@ -11,6 +11,7 @@
 ; WGDesktop
 ; Paints the desktop pattern (assumes 80 cols)
 ;
+_WGDesktop:			; void WGDesktop(void);
 WGDesktop:
 	pha
 	lda #'W'
@@ -22,6 +23,7 @@ WGDesktop:
 ; WGClearScreen
 ; Clears the text screen (assumes 80 cols)
 ;
+_WGClearScreen:		; void WGClearScreen(void);
 WGClearScreen:
 	pha
 	lda #' ' + $80
@@ -67,6 +69,7 @@ WGClearScreen_charLoop2:
 ; A: Character to plot (Apple format)
 ; Side effects: Clobbers BASL,BASH
 ;
+_WGPlot:			; void __fastcall__ WGPlot(byte character);
 WGPlot:
 	SAVE_XY
 	pha
@@ -115,6 +118,10 @@ WGPlot_done:
 ; V: If set, characters are printed raw with no high bit alterations
 ; Side effects: Clobbers SA,BASL,BASH
 ;
+_WGPrint:			; void __fastcall__ WGPrint(byte* pString);
+	FAST_PARAM_PTR
+	clv
+	
 WGPrint:
 	SAVE_AXY
 	SAVE_ZPS

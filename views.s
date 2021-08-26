@@ -29,6 +29,9 @@ WG_FEATURE_RT = %01000000
 ; VW: View Width
 ; VH: View Height
 ;
+_WGCreateView:		; void __fastcall__ WGCreateView(createViewParam_t* pParams);
+	FAST_PARAM_PTR
+
 WGCreateView:
 	SAVE_AXY
 
@@ -103,6 +106,9 @@ WGCreateView_done:
 ; SL: String pointer (LSB)
 ; SH: String pointer (MSB)
 ;
+_WGCreateCheckbox: 	; void __fastcall__ WGCreateCheckbox(createCheckboxParam_t* pParams);
+	FAST_PARAM_PTR
+
 WGCreateCheckbox:
 	pha
 	lda #VIEW_STYLE_CHECK
@@ -121,6 +127,9 @@ WGCreateCheckbox:
 ; SL: String pointer (LSB)
 ; SH: String pointer (MSB)
 ;
+_WGCreateRadio:		; void __fastcall__ WGCreateRadio(createRadioParam_t* pParams);
+	FAST_PARAM_PTR
+
 WGCreateRadio:
 	pha
 	lda #VIEW_STYLE_RADIO
@@ -190,6 +199,9 @@ WGCreate1x1_style:
 ; YY: Screen Y origin
 ; PW: Progress width
 ;
+_WGCreateProgress:	; void __fastcall__ WGCreateProgress(createProgressParam_t* pParams);
+	FAST_PARAM_PTR
+
 WGCreateProgress:
 	SAVE_AXY
 
@@ -250,6 +262,9 @@ WGCreateProgress_done:
 ; Sets state field in view record
 ; PARAM0: Value
 ;
+_WGSetState:		; void __fastcall__ WGSetState(byte value);
+	sta PARAM0
+
 WGSetState:
 	SAVE_AY
 
@@ -289,6 +304,12 @@ WGGetState_done:
 	RESTORE_AY
 	rts
 
+_WGGetState:		; byte WGGetState(void);
+	jsr WGGetState
+	lda PARAM0
+	ldx #0
+	rts
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -306,6 +327,10 @@ WGGetState_done:
 ; PH: Action callback (MSB)
 ; SL: Title string pointer (LSB)
 ; SH: Title string pointer (MSB)
+;
+_WGCreateButton:	; void __fastcall__ WGCreateButton(createButtonParam_t* pParams);
+	FAST_PARAM_PTR
+
 WGCreateButton:
 	SAVE_AXY
 
@@ -369,6 +394,7 @@ WGCreateButton_done:
 ; WGDeleteView
 ; Deletes the current view and removes it from the screen
 ;
+_WGDeleteView:		; void WGDeleteView(void);
 WGDeleteView:
 	SAVE_AY
 
@@ -392,6 +418,7 @@ WGDeleteView_done:
 ; WGResetView
 ; Deletes the current view but does not erase or repaint anything
 ;
+_WGResetView:		; void WGResetView(void);
 WGResetView:
 	SAVE_AX
 	LDX_ACTIVEVIEW
@@ -404,6 +431,7 @@ WGResetView:
 ; WGPaintView
 ; Paints the current view
 ;
+_WGPaintView:		; void WGPaintView(void);
 WGPaintView:
 	SAVE_AXY
 	SAVE_ZPP
@@ -716,6 +744,7 @@ paintWindowTitle_done:
 ; WGEraseView
 ; Erases the current view (including decoration)
 ;
+_WGEraseView:		; void WGEraseView(void);
 WGEraseView:
 	SAVE_AXY
 	SAVE_ZPP
@@ -753,6 +782,7 @@ WGEraseView_done:
 ; WGEraseViewContents
 ; Erases the contents of the current view (interior contents only)
 ;
+_WGEraseViewContents:	; void WGEraseViewContents(void);
 WGEraseViewContents:
 	SAVE_AY
 	SAVE_ZPP
@@ -786,6 +816,7 @@ WGEraseViewContents_done:
 ; Selects the active view
 ; A: ID
 ;
+_WGSelectView:		; void __fastcall__ WGSelectView(byte viewId);
 WGSelectView:
 	sta WG_ACTIVEVIEW
 
@@ -804,6 +835,7 @@ WGSelectView_done:
 ; Shifts focus to the selected view
 ; Side effects: Changes selected view, repaints some views
 ;
+_WGViewFocus:		; void WGViewFocus(void);
 WGViewFocus:
 	SAVE_AY
 
@@ -840,6 +872,7 @@ WGViewFocusQuiet:
 ; Unfocuses all views
 ; Side effects: Changes selected view, repaints some views
 ;
+_WGViewUnfocus:		; void WGViewUnfocus(void);
 WGViewUnfocus:
 	pha
 
@@ -858,6 +891,7 @@ WGViewUnfocus_done:
 ; Shifts focus to the next view
 ; Side effects: Changes selected view, repaints some views
 ;
+_WGViewFocusNext:	; void WGViewFocusNext(void);
 WGViewFocusNext:
 	SAVE_AY
 
@@ -898,6 +932,7 @@ WGViewFocusNext_wrap:
 ; Shifts focus to the prev view
 ; Side effects: Changes selected view, repaints some views
 ;
+_WGViewFocusPrev:	; void WGViewFocusPrev(void);
 WGViewFocusPrev:
 	SAVE_AY
 
@@ -986,6 +1021,7 @@ focusCurrent_done:
 ; WG_GOSUB : Set if the caller should perform an Applesoft GOSUB
 ; Side effects: Changes selected view, Repaints some views
 ;
+_WGViewFocusAction:	; void WGViewFocusAction(void);void WGPaintView(void);
 WGViewFocusAction:
 	SAVE_AXY
 
@@ -1092,6 +1128,7 @@ WGViewFocusAction_knownRTS:
 ; Global flag set if the caller should perform an Applesoft GOSUB
 ; Side effects: Changes selected view, Repaints some views
 ;
+_WGPendingViewAction:	; void WGPendingViewAction(void);
 WGPendingViewAction:
 	SAVE_AY
 
@@ -1199,11 +1236,16 @@ WGPendingClick:
 WGPendingClick_done:
 	rts
 
+_WGPendingClick:	; unsigned WGPendingClick(void);
+	jsr WGPendingClick
+	tya
+	rts
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; WGClearPendingClick
 ; clear mouse coordinates
 ;
+_WGClearPendingClick:	; void WGClearPendingClick(void);
 WGClearPendingClick:
 	stz WG_MOUSECLICK_X
 	dec WG_MOUSECLICK_X
@@ -1215,6 +1257,10 @@ WGClearPendingClick:
 ; Sets the title of the active view
 ; PARAM0: Null-terminated string pointer (LSB)
 ; PARAM1: Null-terminated string pointer (MSB)
+;
+_WGViewSetTitle:	; void __fastcall__ WGViewSetTitle(byte* pTitle);
+	FAST_PARAM_PTR
+
 WGViewSetTitle:
 	SAVE_AY
 
@@ -1235,6 +1281,10 @@ WGViewSetTitle_done:
 ; Sets the callback action of the active view
 ; PARAM0: Null-terminated function pointer (LSB)
 ; PARAM1: Null-terminated function pointer (MSB)
+;
+_WGViewSetAction:	; void __fastcall__ WGViewSetAction(void (*pfnCallback)(void));
+	FAST_PARAM_PTR
+
 WGViewSetAction:
 	SAVE_AY
 
@@ -1254,6 +1304,8 @@ WGViewSetAction_done:
 ; WGViewSetRawTitle
 ; Sets the raw title flag of the active view
 ; PARAM0: Flag to set
+;
+_WGViewSetRawTitle:	; void __fastcall__ WGViewSetRawTitle(byte raw);
 WGViewSetRawTitle:
 	SAVE_AY
 
@@ -1280,6 +1332,9 @@ WGViewSetRawTitle_done:
 ; PARAM0: X
 ; PARAM1: Y
 ;
+_WGSetCursor:		; void __fastcall__ WGSetCursor(byte xPos, byte yPos);
+	FAST_PARAM_2
+
 WGSetCursor:
 	pha
 
@@ -1306,6 +1361,9 @@ WGSetCursor_StoreY:
 ; PARAM0: X
 ; PARAM1: Y
 ;
+_WGSetGlobalCursor:	; void __fastcall__ WGSetGlobalCursor(byte xPos, byte yPos);
+	FAST_PARAM_2
+
 WGSetGlobalCursor:
 	pha
 
@@ -1324,6 +1382,7 @@ WGSetGlobalCursor:
 ; Synchronizes the global cursor with the current local view's
 ; cursor
 ;
+_WGSyncGlobalCursor:	; void WGSyncGlobalCursor(void);
 WGSyncGlobalCursor:
 	SAVE_AY
 
@@ -1359,6 +1418,7 @@ WGSyncGlobalCursor_done:
 ; A: New scroll amount
 ; Side effects: Clobbers A
 ;
+_WGScrollX:			; void __fastcall__ WGScrollX(byte x);
 WGScrollX:
 	phy
 	pha
@@ -1383,6 +1443,7 @@ WGScrollX_done:
 ; A: Scroll delta
 ; Side effects: Clobbers A,S0
 ;
+_WGScrollXBy:		; void __fastcall__ WGScrollXBy(byte xOffset);
 WGScrollXBy:
 	SAVE_XY
 	tax
@@ -1433,6 +1494,7 @@ WGScrollXBy_done:
 ; A: New scroll amount
 ; Side effects: Clobbers A
 ;
+_WGScrollY:			; void __fastcall__ WGScrollY(byte y);
 WGScrollY:
 	phy
 	pha
@@ -1458,6 +1520,7 @@ WGScrollY_done:
 ; A: Scroll delta
 ; Side effects: Clobbers A,S0
 ;
+_WGScrollYBy:		; void __fastcall__ WGScrollYBy(byte yOffset);
 WGScrollYBy:
 	SAVE_XY
 	tax
@@ -1507,6 +1570,7 @@ WGScrollYBy_done:
 ; Sets the content width of the current view
 ; A: New width
 ;
+_WGSetContentWidth:	; void __fastcall__ WGSetContentWidth(byte width);
 WGSetContentWidth:
 	phy
 	pha
@@ -1526,6 +1590,7 @@ WGSetContentWidth:
 ; Sets the content width of the current view
 ; A: New height
 ;
+_WGSetContentHeight:	; void __fastcall__ WGSetContentHeight(byte height);
 WGSetContentHeight:
 	phy
 	pha
@@ -1545,6 +1610,7 @@ WGSetContentHeight:
 ; Repaints all views
 ; Side effects: Changes selected view
 ;
+_WGViewPaintAll:	; void WGViewPaintAll(void);
 WGViewPaintAll:
 	SAVE_AXY
 
@@ -1717,6 +1783,12 @@ WGViewFromPoint_noMatch:
 	RESTORE_ZPS
 	lda #$ff
 	RESTORE_XY
+	rts
+
+_WGViewFromPoint:	; byte __fastcall__ WGViewFromPoint(byte xPos, byte yPos);
+	FAST_PARAM_2
+	jsr WGViewFromPoint
+	ldx #0
 	rts
 
 

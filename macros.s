@@ -9,6 +9,8 @@
 
 ; Macros
 
+.import popa
+
 .macro SETSWITCH name		; Sets the named softswitch (assumes write method)
 	sta name
 .endmacro
@@ -119,6 +121,30 @@
 .macro CALL16 func,addr
 	PARAM16 addr
 	jsr func
+.endmacro
+
+
+.macro FAST_PARAM_2			; Get two byte parameters from __fastcall__
+	sta PARAM1
+	jsr popa
+	sta PARAM0
+.endmacro
+
+
+.macro FAST_PARAM_4			; Get four byte parameters from __fastcall__
+	sta PARAM3
+	jsr popa
+	sta PARAM2
+	jsr popa
+	sta PARAM1
+	jsr popa
+	sta PARAM0
+.endmacro
+
+
+.macro FAST_PARAM_PTR		; Get pointer from __fastcall__
+	stx PARAM1
+	sta PARAM0
 .endmacro
 
 

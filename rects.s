@@ -17,6 +17,11 @@
 ; Y: Character to fill (Apple format)
 ; Side effects: Clobbers Y,S0,BASL,BASH
 ;
+_WGFillRect:		; void __fastcall__ WGFillRect(byte xPos, byte yPos, byte width, byte height, byte fillChar);
+	FAST_PARAM_4
+	jsr popa
+	tay
+
 WGFillRect:
 	SAVE_AX
 	sty SCRATCH0
@@ -194,17 +199,25 @@ CH_DOUBLE = '\'
 .endmacro
 
 
+_WGStrokeRect:		; void __fastcall__ WGStrokeRect(byte xPos, byte yPos, byte width, byte height);
+	FAST_PARAM_4
+
 WGStrokeRect:
 	pha
 	lda #CH_LEFT
 	sta SCRATCH1
 	lda #CH_RIGHT
 	bra WGStrokeRect_common
+
+_WGStrokeRoundRect:	; void __fastcall__ WGStrokeRoundRect(byte xPos, byte yPos, byte width, byte height);
+	FAST_PARAM_4
+
 WGStrokeRoundRect:
 	pha
 	lda #CH_ROUND_LEFT
 	sta SCRATCH1
 	lda #CH_ROUND_RIGHT
+
 WGStrokeRect_common:
 	sta SCRATCH2
 	pla
@@ -495,6 +508,9 @@ FR_BOTTOMRIGHTA2 = 'P'
 FR_BOTTOMLEFT = 'Z'
 FR_BOTTOMLEFTA = 'O'
 
+_WGFancyRect:		; void __fastcall__ WGFancyRect(byte xPos, byte yPos, byte width, byte height);
+	FAST_PARAM_4
+	
 WGFancyRect:
 	SAVE_AXY
 	SAVE_ZPS

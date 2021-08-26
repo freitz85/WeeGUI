@@ -42,7 +42,7 @@ $(PGM):
 #	osascript V2Make.scpt $(PROJECT_DIR) $(DEMO) $(PGM)
 
 $(CDEMO):
-	$(CA65) -t apple2enh weegui.s
+	$(CA65) -t apple2enh weegui.s -l $(PGM).lst
 	$(CL65) -t apple2enh -C apple2enh-weegui.cfg -l $(CDEMO).lst -m $(CDEMO).map $(CDEMO).c weegui.o
 	java -jar $(AC) -d $(PGM).dsk $(CDEMO)
 	java -jar $(AC) -as $(PGM).dsk $(CDEMO) < $(CDEMO)

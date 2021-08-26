@@ -70,6 +70,7 @@ CH_MOUSEPOINTER = 'B'
 ; WGEnableMouse
 ; Prepares the mouse for use
 ;
+_WGEnableMouse:		; void WGEnableMouse(void);
 WGEnableMouse:
 	pha
 
@@ -186,6 +187,7 @@ WGEnableMouse_Activate:
 ; WGDisableMouse
 ; Shuts off the mouse when we're done with it
 ;
+_WGDisableMouse:	; void WGDisableMouse(void);
 WGDisableMouse:
 	pha
 

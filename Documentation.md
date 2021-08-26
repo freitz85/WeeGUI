@@ -769,7 +769,7 @@ Sets the currently selected view's title to be rendered in raw bytes (or not). T
 
 <table width="100%">
 <tr><th>Assembly</th><th>Applesoft</th></tr><tr><td><pre>
-X:		WGSetRawTitle
+X:		WGViewSetRawTitle
 PARAM0: 0 or 1
 </td><td>
 &STRW(0 or 1)
@@ -908,11 +908,12 @@ Not available
 </table>
 
 
-####WGViewWidth
+####WGSetContentWidth
 Changes the content width of the currently selected view.
 
 <table width="100%">
-<tr><th>Assembly</th><th>Applesoft</th></tr><tr><td>
+<tr><th>Assembly</th><th>Applesoft</th></tr><tr><td><pre>
+X:		WGSetContentWidth
 A: 		New content width for the view
 </td><td>
 Not available
@@ -920,11 +921,12 @@ Not available
 </table>
 
 
-####WGViewHeight
-Changes the content width of the currently selected view.
+####WGSetContentHeight
+Changes the content height of the currently selected view.
 
 <table width="100%">
-<tr><th>Assembly</th><th>Applesoft</th></tr><tr><td>
+<tr><th>Assembly</th><th>Applesoft</th></tr><tr><td><pre>
+X:		WGSetContentHeight
 A: 		New content height for the view
 </td><td>
 Not available
@@ -1140,20 +1142,6 @@ Cleans up and shuts down WeeGUI. If you want your application to return cleanly 
 X:		WGExit
 </pre></td><td><pre>
 &EXIT
-</pre></td></tr>
-</table>
-
-
-<br><br>
-
-####WGReset
-Deallocate all WeeGUI views and strings. This is called automatically during WeeGUI startup, but you can call it yourself at any time if you want to "start over" with no views. This does not clear the screen or repaint anything.
-
-<table width="100%">
-<tr><th>Assembly</th><th>Applesoft</th></tr><tr><td><pre>
-X:		WGReset
-</pre></td><td><pre>
-Not available
 </pre></td></tr>
 </table>
 

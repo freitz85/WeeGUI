@@ -86,6 +86,13 @@ WGEntryPointTable:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; WGInit
 ; Initialization. Should be called once at app startup
+
+_WGInit:
+	SAVE_AXY
+	jsr		WG80
+	RESTORE_AXY
+	jmp		WGResetAll
+
 WGInit:
 	SAVE_AXY
 
@@ -136,6 +143,8 @@ WGInit_clearMemLoop:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; WGExit
 ; Cleanup Should be called once at app shutdown
+;
+_WGExit:			; void WGExit(void);
 WGExit:
 	pha
 
@@ -160,6 +169,14 @@ WGExit:
 	pla
 	rts
 	
+
+_WGGet:				; byte WGGet(void);
+	lda $c000
+	bpl _WGGet
+	sta $c000
+	ldx #0
+	rts
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; WG80
