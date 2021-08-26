@@ -172,9 +172,10 @@ WGExit:
 
 _WGGet:				; byte WGGet(void);
 	lda $c000
-	bpl _WGGet
-	sta $c000
-	ldx #0
+	bpl :+			; no key pressed
+	sta $c010
+	and #$7f		; mask high bit
+:	ldx #0
 	rts
 
 
@@ -209,9 +210,4 @@ WG80:
 
 
 ; Suppress some linker warnings - Must be the last thing in the file
-.SEGMENT "ZPSAVE"
-.SEGMENT "EXEHDR"
-.SEGMENT "STARTUP"
-.SEGMENT "INIT"
-.SEGMENT "LOWCODE"
-.SEGMENT "ONCE"
+.SEGMENT "HGR"

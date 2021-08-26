@@ -46,8 +46,8 @@ $(CDEMO):
 	$(CL65) -t apple2enh -C apple2enh-weegui.cfg -l $(CDEMO).lst -m $(CDEMO).map $(CDEMO).c weegui.o
 	java -jar $(AC) -d $(PGM).dsk $(CDEMO)
 	java -jar $(AC) -as $(PGM).dsk $(CDEMO) < $(CDEMO)
-#	rm -f $(CDEMO)
-#	rm -f $(CDEMO).o
+	rm -f $(CDEMO)
+	rm -f $(CDEMO).o
 
 clean:
 	rm -f $(CDEMO)

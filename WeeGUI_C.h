@@ -28,7 +28,7 @@ typedef struct
 	byte viewId;
 	byte xpos;
 	byte ypos;
-	char* pLabel;
+	const char* pLabel;
 } createCheckboxParam_t, createRadioParam_t;
 
 typedef struct 
@@ -46,18 +46,18 @@ typedef struct
 	byte yPos;
 	byte width;
 	void (*pfnCallback)(void);
-	char* pLabel;
+	const char* pLabel;
 } createButtonParam_t;
 
 
 void WGInit(void);
 
 // View routines
-void __fastcall__ WGCreateView(createViewParam_t* pParams);
-void __fastcall__ WGCreateCheckbox(createCheckboxParam_t* pParams);
-void __fastcall__ WGCreateRadio(createRadioParam_t* pParams);
-void __fastcall__ WGCreateProgress(createProgressParam_t* pParams);
-void __fastcall__ WGCreateButton(createButtonParam_t* pParams);
+void __fastcall__ WGCreateView(const createViewParam_t* pParams);
+void __fastcall__ WGCreateCheckbox(const createCheckboxParam_t* pParams);
+void __fastcall__ WGCreateRadio(const createRadioParam_t* pParams);
+void __fastcall__ WGCreateProgress(const createProgressParam_t* pParams);
+void __fastcall__ WGCreateButton(const createButtonParam_t* pParams);
 void WGDeleteView(void);
 void __fastcall__ WGSelectView(byte viewId);
 //byte WGGetSel(void);
@@ -73,7 +73,7 @@ void WGPaintView(void);
 void WGViewPaintAll(void);
 void WGEraseViewContents(void);
 void WGEraseView(void);
-void __fastcall__ WGViewSetTitle(char* pTitle);
+void __fastcall__ WGViewSetTitle(const char* pTitle);
 void __fastcall__ WGViewSetAction(void (*pfnCallback)(void));
 byte __fastcall__ WGViewFromPoint(byte xPos, byte yPos);
 void __fastcall__ WGSetState(byte value);
@@ -100,7 +100,7 @@ void __fastcall__ WGSetContentHeight(byte height);
 void WGClearScreen(void);
 void WGDesktop(void);
 void __fastcall__ WGPlot(char character);
-void __fastcall__ WGPrint(char* pString);	// TODO overflow bit
+void __fastcall__ WGPrint(const char* pString);	// TODO overflow bit
 void __fastcall__ WGStrokeRect(byte xPos, byte yPos, byte width, byte height);
 void __fastcall__ WGStrokeRoundRect(byte xPos, byte yPos, byte width, byte height);
 void __fastcall__ WGFillRect(byte xPos, byte yPos, byte width, byte height, byte fillChar);

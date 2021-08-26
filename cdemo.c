@@ -18,19 +18,28 @@ void quit(void);
 int main(void)
 {
 	byte action = 0;
+	const createViewParam_t helpViewParam = { HELP_VIEW, STYLE_DECORATED, 2, 15, 76, 7, 76, 40 };
+	const createViewParam_t	mainViewParam = { MAIN_VIEW, STYLE_PLAIN, 1, 1, 78, 11, 78, 11 };
+	const createButtonParam_t openButtonParam = { BTN_OPEN, 4, 3, 21, openGarage, "Open Garage" };
+	const createButtonParam_t closeButtonParam = {BTN_CLOSE, 4, 5, 21, closeGarage, "Close Garage"};
 
 	WGInit();
-
 	WGDesktop();
-	WGCreateView(HELP_VIEW, STYLE_DECORATED, 2, 15, 76, 7, 76, 40);
+
+	WGCreateView(&helpViewParam);
 	WGViewSetTitle("Help");
-	WGViewSetAction(help);
+	WGViewSetAction(&help);
+	WGPaintView();
 	help();
 
 	WGFillRect(0, 0, 80, 13, 160);
-	WGCreateView(MAIN_VIEW, STYLE_PLAIN, 1, 1, 78, 11, 78, 11);
-	WGCreateButton(BTN_OPEN, 4, 3, 21, openGarage, "Open Garage");
-	WGCreateButton(BTN_CLOSE, 4, 5, 21, closeGarage, "Close Garage");
+	WGCreateView(&mainViewParam);
+	WGPaintView();
+
+	WGCreateButton(&openButtonParam);
+	WGPaintView();
+	WGCreateButton(&closeButtonParam);
+	WGPaintView();
 
 	WGSelectView(BTN_OPEN);
 	WGSetCursor(40, 1);
@@ -40,33 +49,33 @@ int main(void)
 	// NORMAL
 	WGPrint("\x53\x53\x53");
 
-	WGCreateCheckbox(CHK_PARLOR, 42, 4, "Parlor");
+	/*WGCreateCheckbox(CHK_PARLOR, 42, 4, "Parlor");
 	WGCreateCheckbox(CHK_LOUNGE, 42, 6, "Lounge");
 	WGCreateCheckbox(CHK_BEDROOM, 42, 8, "Bedroom");
 	openGarage();
 
-	WGCreateButton(BTN_QUIT, 71, 1, 8, quit, "Quit");
+	WGCreateButton(BTN_QUIT, 71, 1, 8, quit, "Quit");*/
 	WGSelectView(HELP_VIEW);
 	WGEnableMouse();
 
-	while(action != 113)
+	while(action != 'q')
 	{
 		WGPendingViewAction();
 		action = WGGet();
 
 		switch(action)
 		{
-		case 113: 		// q
+		case 'q': 		// q
 			quit(); 
 			break;
 
 		case CH_CURS_UP:
-			WGScrollBy(0, 1);
+			//WGScrollBy(0, 1);
 			help();
 			break;
 
 		case CH_CURS_DOWN:
-			WGScrollBy(0, -1);
+			//WGScrollBy(0, -1);
 			help();
 			break;
 
@@ -74,7 +83,7 @@ int main(void)
 			WGViewFocusPrev();
 			break;
 
-		case 9:
+		case 9:			// tab
 			WGViewFocusNext();
 			break;
 
@@ -126,5 +135,5 @@ void quit(void)
 {
 	WGDisableMouse();
 	WGExit();
-	__asm__ ("JSR $FC58");	// HOME
+	__asm__ ("JSR $C300");	// clear screen
 }
