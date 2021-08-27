@@ -18,9 +18,9 @@
 ; Side effects: Clobbers Y,S0,BASL,BASH
 ;
 _WGFillRect:		; void __fastcall__ WGFillRect(byte xPos, byte yPos, byte width, byte height, byte fillChar);
-	FAST_PARAM_4
-	jsr popa
 	tay
+	jsr popa			; necessary to make FAST_PARAM_4 work
+	FAST_PARAM_4
 
 WGFillRect:
 	SAVE_AX

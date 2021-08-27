@@ -8,6 +8,7 @@
 .export			_WGSyncGlobalCursor	
 .export			_WGPlot				
 .export			_WGPrint				
+.export         _WGPrintRaw
 .export			_WGFillRect			
 .export			_WGStrokeRect		
 .export			_WGFancyRect			

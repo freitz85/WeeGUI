@@ -21,7 +21,11 @@ int main(void)
 	const createViewParam_t helpViewParam = { HELP_VIEW, STYLE_DECORATED, 2, 15, 76, 7, 76, 40 };
 	const createViewParam_t	mainViewParam = { MAIN_VIEW, STYLE_PLAIN, 1, 1, 78, 11, 78, 11 };
 	const createButtonParam_t openButtonParam = { BTN_OPEN, 4, 3, 21, openGarage, "Open Garage" };
-	const createButtonParam_t closeButtonParam = {BTN_CLOSE, 4, 5, 21, closeGarage, "Close Garage"};
+	const createButtonParam_t closeButtonParam = { BTN_CLOSE, 4, 5, 21, closeGarage, "Close Garage" };
+	const createButtonParam_t quitButtonParam = { BTN_QUIT, 71, 1, 8, quit, "Quit" };
+	const createCheckboxParam_t parlourChkParam = { CHK_PARLOR, 42, 4, "Parlor" };
+	const createCheckboxParam_t loungeChkParam = { CHK_LOUNGE, 42, 6, "Lounge" };
+	const createCheckboxParam_t bedChkParam = { CHK_BEDROOM, 42, 8, "Bedroom" };
 
 	WGInit();
 	WGDesktop();
@@ -41,7 +45,7 @@ int main(void)
 	WGCreateButton(&closeButtonParam);
 	WGPaintView();
 
-	WGSelectView(BTN_OPEN);
+	WGSelectView(MAIN_VIEW);
 	WGSetCursor(40, 1);
 	WGPrint("\x53\x53\x53");
 	// INVERSE
@@ -49,18 +53,22 @@ int main(void)
 	// NORMAL
 	WGPrint("\x53\x53\x53");
 
-	/*WGCreateCheckbox(CHK_PARLOR, 42, 4, "Parlor");
-	WGCreateCheckbox(CHK_LOUNGE, 42, 6, "Lounge");
-	WGCreateCheckbox(CHK_BEDROOM, 42, 8, "Bedroom");
+	WGCreateCheckbox(&parlourChkParam);
+	WGPaintView();
+	WGCreateCheckbox(&loungeChkParam);
+	WGPaintView();
+	WGCreateCheckbox(&bedChkParam);
+	WGPaintView();
 	openGarage();
 
-	WGCreateButton(BTN_QUIT, 71, 1, 8, quit, "Quit");*/
+	WGCreateButton(&quitButtonParam);
+	WGPaintView();
 	WGSelectView(HELP_VIEW);
-	WGEnableMouse();
+	//WGEnableMouse();
 
 	while(action != 'q')
 	{
-		WGPendingViewAction();
+		//WGPendingViewAction();
 		action = WGGet();
 
 		switch(action)

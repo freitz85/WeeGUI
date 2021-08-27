@@ -118,9 +118,13 @@ WGPlot_done:
 ; V: If set, characters are printed raw with no high bit alterations
 ; Side effects: Clobbers SA,BASL,BASH
 ;
+_WGPrintRaw:		; void __fastcall__ WGPrintRaw(byte* pString);
+	FAST_PARAM_PTR
+	bit WGPrint_rts			; Set overflow
+	bra WGPrint
+	
 _WGPrint:			; void __fastcall__ WGPrint(byte* pString);
 	FAST_PARAM_PTR
-	clv
 	
 WGPrint:
 	SAVE_AXY
@@ -239,6 +243,7 @@ WGPrint_charLoopNormal:
 WGPrint_done:				; This is in the middle here to keep local branches in range
 	RESTORE_ZPS
 	RESTORE_AXY
+WGPrint_rts:
 	rts
 
 WGPrint_endVisible:

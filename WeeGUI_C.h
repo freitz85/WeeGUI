@@ -100,7 +100,8 @@ void __fastcall__ WGSetContentHeight(byte height);
 void WGClearScreen(void);
 void WGDesktop(void);
 void __fastcall__ WGPlot(char character);
-void __fastcall__ WGPrint(const char* pString);	// TODO overflow bit
+void __fastcall__ WGPrint(const char* pString);
+void __fastcall__ WGPrintRaw(const char* pString);
 void __fastcall__ WGStrokeRect(byte xPos, byte yPos, byte width, byte height);
 void __fastcall__ WGStrokeRoundRect(byte xPos, byte yPos, byte width, byte height);
 void __fastcall__ WGFillRect(byte xPos, byte yPos, byte width, byte height, byte fillChar);
